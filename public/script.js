@@ -119,7 +119,7 @@ function mostrarSeccion(seccion) {
       break;
     case 'masVendidos':
       mostrarProductosMasVendidos();
-      document.getElementById('masVedidos').style.display = 'block';
+      document.getElementById('productosMasVendidos').style.display = 'block'; // Corregido el ID
       break;
     case 'agregarMasVendidos':
       abrirFormularioMasVendidos();
