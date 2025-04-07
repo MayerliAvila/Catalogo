@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Oki - Tienda</title>
+  
+  <!-- Estilos -->
+  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Encabezado -->
+  <header>
+    <div class="header-container">
+      <img src="logo.png" alt="Logo" class="logo">
+      <h1 class="golden-text">Vive cada momento con estilo</h1>
+    </div>
+  </header>
+
+  <!-- Carrusel de productos -->
+  <section class="productos-mas-vendidos">
+    <h2>PRODUCTOS MÁS VENDIDOS</h2>
+    <div class="carrusel">
+      <button class="btn-carrusel izq">&#8249;</button>
+      <div class="contenedor-productos" id="carrusel-productos">
+        <!-- Los productos se cargarán aquí dinámicamente -->
+      </div>   
+      <button class="btn-carrusel der">&#8250;</button>
+    </div>
+  </section>
+  
+
+  <!-- Categorías dinámicas desde JSON -->
+  <section class="categorias" id="categorias">
+    <!-- Los botones se insertan dinámicamente aquí -->
+  </section>
+
+<!-- Todos los productos -->
+ <div class="category">
+  <button>Shorts</button>
+</div>
+
+<div class="product-container">
+  <div class="product-card">
+    <div class="product-image-container">
+      <img src="https://i.pinimg.com/originals/20/15/68/2015684e379554c1648d018b5dfd0b46.jpg" alt="Producto Principal" class="product-image" id="main-image">
+    </div>
+    <div class="product-details">
+      <h3>Camiseta Basica</h3>
+      <p>Camiseta de algodón cómoda y casual.</p>
+      <p><strong>Tallas disponibles:</strong> S M L XL</p>
+      <p><strong>Colores disponibles:</strong></p>
+      <div class="thumbnail-container">
+        <img src="https://i.pinimg.com/originals/20/15/68/2015684e379554c1648d018b5dfd0b46.jpg" alt="Miniatura 1" onclick="changeImage(this)">
+        <img src="https://media.gq.com.mx/photos/6123fdbcda7922b6d80aad57/master/w_1600%2Cc_limit/Vestir%2520de%2520negro.jpg" alt="Miniatura 2" onclick="changeImage(this)">
+        <img src="https://estasdemoda.com/wp-content/uploads/2020/07/consejos-de-fotografia-de-moda-11.jpg" alt="Miniatura 3" onclick="changeImage(this)">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>
