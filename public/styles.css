@@ -1,615 +1,954 @@
-
 :root {
-    /* Variables para colores principales */
-    --main-bg-color: #1D504B; /* Verde oscuro */
-    --main-text-color: #DCAC64; /* Dorado */
-  }
+  /* Variables para colores principales reutilizables en todo el archivo */
+   --main-bg-color: #1D504B; /* Define una variable CSS llamada --main-bg-color y le asigna el color verde oscuro #1D504B. Se usa para el fondo principal. */
+   --main-text-color: #DCAC64; /* Define una variable CSS llamada --main-text-color y le asigna el color dorado #DCAC64. Se usa para el texto principal. */
+}
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: linear-gradient(
-      135deg,
-      #e4d5be 0%,
-      #f3e9d7 15%,
-      #f5ead9 30%,
-      #ead9c7 45%,
-      #dbc6b4 60%,
-      #f9f3ed 75%,
-      #e4d5be 100%
-    );
-    background-size: 500%;
-    animation: fondo 10s linear infinite;
-  }
+  font-family: Arial, sans-serif; /* Establece la fuente del texto del cuerpo a Arial o una fuente sans-serif genérica si Arial no está disponible. */
+  margin: 0; /* Elimina el margen predeterminado del cuerpo. */
+  padding: 0; /* Elimina el relleno predeterminado del cuerpo. */
+  background-image: linear-gradient( /* Establece una imagen de fondo con un degradado lineal. */
+    135deg, /* Define el ángulo del degradado a 135 grados. */
+    #e4d5be 0%, /* Define el primer color del degradado (#e4d5be) comenzando al 0%. */
+    #f3e9d7 15%, /* Define el segundo color del degradado (#f3e9d7) comenzando al 15%. */
+    #f5ead9 30%, /* Define el tercer color del degradado (#f5ead9) comenzando al 30%. */
+    #ead9c7 45%, /* Define el cuarto color del degradado (#ead9c7) comenzando al 45%. */
+    #dbc6b4 60%, /* Define el quinto color del degradado (#dbc6b4) comenzando al 60%. */
+    #f9f3ed 75%, /* Define el sexto color del degradado (#f9f3ed) comenzando al 75%. */
+    #e4d5be 100% /* Define el séptimo color del degradado (#e4d5be) terminando al 100%. */
+  );
+  background-size: 500%; /* Establece el tamaño del fondo al 500% del tamaño del contenedor, lo que se usará para la animación. */
+  animation: fondo 10s linear infinite; /* Aplica una animación llamada "fondo" que dura 10 segundos, tiene una velocidad constante (linear) y se repite infinitamente. */
   
-  header {
-    text-align: center;
-    background-color: var(--main-bg-color);
-    color: var(--main-text-color);
-    padding: 20px;
-  }
-  .header-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .golden-text {
-    font-size: 2.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    background: linear-gradient(90deg,
-      #f7c873,
-      #f9e3b5,
-      #f7c873,
-      #a67c00
-    );
-    background-size: 200%;
-    -webkit-background-clip: text;
-    color: transparent;
-    animation: shine 5s linear infinite;
-  }
-  /* Animación para el texto dorado */
-  @keyframes shine {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-  @media (max-width: 768px) {
-    header {
-      padding: 15px;
-    }
-  
-    .header-container {
-      gap: 5px;
-    }
-  
-    .golden-text {
-      font-size: 1.8rem;
-    }
-  
-    .logo {
-      width: 80px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    header {
-      padding: 10px;
-    }
-  
-    .golden-text {
-      font-size: 1.5rem;
-    }
-  
-    .logo {
-      width: 60px;
-    }
-  }
-  @media (max-width: 480px) {
-    header {
-      padding: 10px; /* Aún menos espacio en pantallas muy pequeñas */
-    }
+  /* IMPORTANTE: Añade espacio arriba para que el contenido no quede bajo el header fijo */
+  /* Usa la variable de altura del header de escritorio por defecto */
+  padding-top: var(--header-height-desktop);   
+}
+/* --- Encabezado Fijo --- */
+.site-header {
+  position: fixed;              /* Fija el header: se queda visible aunque se haga scroll */
+  top: 0;                       /* Lo pega al borde superior de la ventana */
+  left: 0;                      /* Lo pega al borde izquierdo de la ventana */
+  width: 100%;                  /* Ocupa todo el ancho de la ventana */
+  height: var(--header-height-desktop); /* Establece la altura usando la variable de escritorio */
+  background-color: var(--main-bg-color); /* Establece el color de fondo usando la variable (verde oscuro) */
+  color: var(--main-text-color);    /* Establece el color de texto por defecto usando la variable (dorado) */
+  padding: 0 15px;              /* Relleno horizontal de 15px (0 vertical porque la altura es fija) */
+  z-index: 1001;                /* Lo pone muy por encima de otros elementos (excepto quizás modales) */
+  display: flex;                /* Usa Flexbox para organizar los elementos internos */
+  align-items: center;          /* Centra verticalmente los elementos hijos (logo, títulos, botón) */
+  justify-content: space-between;     /* Deja espacio entre los lados */
+  box-sizing: border-box;       /* El padding no se sumará a la altura/ancho especificados */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Añade una sombra sutil debajo del header */
+  height: 80px;
+  position: relative; /* Importante para que el contenido absoluto se refiera a este contenedor */
+}
+/*Animacion de fondo*/
 
+@keyframes fondo { /* Define la animación llamada "fondo". */
+  0% { background-position: 0% 50%; } /* Al inicio de la animación (0%), la posición del fondo es 0% horizontal y 50% vertical. */
+  50% { background-position: 100% 50%; } /* A la mitad de la animación (50%), la posición del fondo es 100% horizontal y 50% vertical. */
+  100% { background-position: 0% 50%; } /* Al final de la animación (100%), la posición del fondo vuelve a ser 0% horizontal y 50% vertical. Esto crea un movimiento del degradado. */
+}
+/* --- Contenedor para Título y Eslogan (opcional, para agruparlos) --- */
+.header-titles {
+  position: absolute; /* Posición absoluta dentro del contenedor */
+  left: 50%; /* Lleva el borde izquierdo al centro del contenedor */
+  transform: translateX(-50%); /* Ajusta el elemento para centrarlo visualmente */
+  text-align: center; /* Centra el contenido interno del elemento */
+  display: flex;                /* Usa Flexbox para los elementos internos */
+  flex-direction: column;       /* Apila los elementos (título y eslogan) verticalmente */
+  align-items: center;          /* Centra el título y eslogan horizontalmente */
+  /* Si se prefiere uno al lado del otro: */
+  /* flex-direction: row; align-items: baseline; gap: 10px; */
+  margin: 0 10px;               /* Margen horizontal para separar del logo y del botón menú */
+  flex-grow: 1;                 /* Permite que este contenedor crezca para ocupar espacio disponible */
+  text-align: center;           /* Centra el texto internamente */
+}
+/* --- Texto Principal (Nombre Empresa - Animado con Gradiente) --- */
+.golden-text {
+  font-size: 1.8rem;            /* Tamaño de fuente (reducido) */
+  font-weight: bold;            /* Texto en negrita */
+  text-transform: uppercase;    /* Convierte el texto a mayúsculas */
+  /* Aplica un fondo de gradiente dorado */
+  background: linear-gradient(90deg, #f7c873, #f9e3b5, #f7c873, #a67c00); 
+  background-size: 200%;        /* Tamaño del fondo (para animación 'shine') */
+  -webkit-background-clip: text;/* Recorta el fondo para que solo sea visible donde hay texto (WebKit) */
+  background-clip: text;        /* Recorta el fondo al texto (estándar) */
+  color: transparent;           /* Hace el color del texto transparente (para mostrar el fondo) */
+  animation: shine 5s linear infinite; /* Aplica la animación 'shine' (definida abajo) */
+  margin: 0;                    /* Elimina márgenes */
+  line-height: 1.1;             /* Ajusta el espacio entre líneas (si es multilinea) */
+}
+header {
+  position: fixed; /* Hace que el header permanezca fijo en la parte superior de la ventana del navegador. */
+  top: 0; /* Coloca el header en la parte superior de la pantalla. */
+  left: 0; /* Alinea el header al borde izquierdo de la pantalla. */
+  width: 100%; /* Hace que el header ocupe todo el ancho de la pantalla. */
+  text-align: center; /* Centra el texto dentro del elemento <header>. */
+  justify-content: center; /* Centra horizontalmente (funciona si el header es un flex container). */
+  align-items: center; /* Centra verticalmente (funciona si el header es un flex container). */
+  background-color: var(--main-bg-color); /* Establece el color de fondo del encabezado utilizando la variable --main-bg-color (verde oscuro). */
+  height: 50px; /* Altura del header, puedes ajustarla según prefieras. */
+  color: var(--main-text-color); /* Establece el color del texto del encabezado utilizando la variable --main-text-color (dorado). */
+  padding: 20px; /* Añade un relleno de 20 píxeles en todos los lados del encabezado. */
+  z-index: 1000; /* Asegura que el header quede por encima de otros elementos de la página. */
+}
+.header-container {
+  display: flex; /* Utiliza un diseño de caja flexible para organizar los elementos dentro del contenedor del encabezado. */
+  flex-direction: column; /* Dispone los elementos flexibles en una columna, uno encima del otro. */
+  align-items: center; /* Centra los elementos flexibles horizontalmente dentro del contenedor. */
+  gap: 10px; /* Añade un espacio de 10 píxeles entre los elementos flexibles. */
+}
 
-    .golden-text {
-      font-size: 1.5rem; /* Reducir más el texto */
-    }
+/* Animación para el texto dorado */
+@keyframes shine { /* Define la animación llamada "shine". */
+  0% {background-position: 0% 50%; }/* Al inicio, la posición del fondo del degradado es 0% horizontal y 50% vertical. */
+  50% { background-position: 100% 50%; } /* A la mitad, la posición del fondo del degradado es 100% horizontal y 50% vertical. Esto crea el efecto de "brillo" moviéndose a través del texto. */
+  100% {background-position: 0% 50%;} /* Al final, la posición del fondo del degradado vuelve a su estado inicial. */
+}
 
-
-    .logo {
-      width: 60px; /* Reducir aún más el tamaño del logo */
-    }
-  }
-  
+  /* --- Logo (Dentro del Header) --- */
+.logo {
+  width: 50px;                  /* Ancho del logo (reducido) */
+  height: 50px;                 /* Alto igual al ancho para que el border-radius 50% lo haga círculo */
+  border-radius: 50%;           /* Hace la imagen circular */
+  display: block;               /* Evita posible espacio extra debajo de la imagen */
+  flex-shrink: 0;               /* Evita que el logo se encoja si falta espacio en el header */
+}
+/* --- Eslogan (Dentro del Header) --- */
+.eslogan {
+  font-size: 0.9em;             /* Tamaño de fuente relativo (más pequeño que el texto normal) */
+  margin: 0;                    /* Elimina márgenes */
+  color: #f5d6a3;              /* Color de texto (heredado o específico) */
+  font-weight: normal;          /* Peso normal para diferenciarlo del título */
+  line-height:1.1;             /* Ajusta interlineado */
+}
+/* RESPONSIVE DESIGN para pantallas medianas */
+@media (max-width: 768px) { /* Aplica estilos solo cuando el ancho de la pantalla es de 768 píxeles o menos (para tablets). */
+  header {padding: 15px; }/* Reduce el relleno del encabezado a 15 píxeles. */
+  .header-container {gap: 5px; }/* Reduce el espacio entre los elementos del encabezado a 5 píxeles. */
+  .golden-text {font-size: 1.4rem;}/* Reduce el tamaño de la fuente del texto dorado a 1.8rem. */
+  .logo {width: 80px; }/* Reduce el ancho del logo a 80 píxeles. */
+  body {padding-top: var(--header-height-mobile); }/* Ajusta el padding superior para la altura del header móvil */
+  .site-header {
+      height: var(--header-height-mobile);/* Usa la altura definida para móvil */
+      padding: 0 10px; }/* Reduce el padding horizontal en el header */
   .logo {
-    width: 100px;
-    height: auto;
-    border-radius: 50%;
-  }
-  
+      width: 40px;  /* Reduce más el tamaño del logo */
+      height: 40px;} /* Mantiene la proporción para círculo */
   .eslogan {
-    font-size: 1.5em;
-    margin: 10px 0;
-    color: #f5d6a3;
-    font-weight: bold;
+      font-size: 0.8em; }/* Reduce más el tamaño del eslogan */
+  .menu-toggle {display: block;  } /* Muestra el botón hamburguesa */
+     
+}
+/* RESPONSIVE DESIGN para pantallas pequeñas */
+@media (max-width: 480px) { /* Aplica estilos solo cuando el ancho de la pantalla es de 480 píxeles o menos (para teléfonos). */
+  header {padding: 10px; }/* Aún menos espacio en pantallas muy pequeñas */
+  .golden-text {font-size: 1.5rem; }/* Reducir más el texto */
+  .logo {width: 60px; } /* Reducir aún más el tamaño del logo */
+}
+
+
+/*Titulo producto mas vendido*/
+.productos-mas-vendidos {
+  padding: 30px 20px; /* Añade un relleno de 30 píxeles en la parte superior e inferior y 20 píxeles a los lados del contenedor de productos más vendidos. */
+  text-align: center; /* Centra el texto dentro del contenedor de productos más vendidos. */
+}
+/*Titulo para producto mas vendido*/
+.productos-mas-vendidos h2 {
+  font-size: 0.5em; /* Establece el tamaño de la fuente del encabezado h2 en 2 veces el tamaño de la fuente padre. */
+  margin-bottom: 20px; /* Añade un margen de 20 píxeles en la parte inferior del encabezado h2. */
+  color: #145a50; /* Establece el color del texto del encabezado h2 a #145a50. */
+}
+
+/* RECOMENDADOS - CARRUSEL */
+  .recomendados {
+  /* Estilos para el contenedor principal de la sección de recomendados */
+  margin: 20px; /* Añade un margen de 20px alrededor del contenedor. */
+  padding: 20px; /* Añade un relleno de 20px dentro del contenedor. */
+  background-color: transparent; /* Establece un fondo transparente para el contenedor. */
+  border-radius: 10px; /* Redondea las esquinas del contenedor con un radio de 10px. */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Añade una sombra suave al contenedor. */
   }
   
-  .productos-mas-vendidos {
-    padding: 30px 20px;
-    text-align: center;
+  .recomendados h2 {
+  /* Estilos para el título principal de la sección de recomendados */
+  font-size: 1.5rem; /* Establece el tamaño de la fuente en 2.5 veces el tamaño de la fuente raíz. */
+  text-align: center; /* Centra el texto del título. */
+  font-weight: bold; /* Establece el texto del título en negrita. */
+  text-transform: uppercase; /* Convierte todo el texto del título a mayúsculas. */
+  background: linear-gradient(90deg, /* Aplica un degradado lineal como fondo del texto, de izquierda a derecha. */
+  #1D504B, /* Primer color del degradado. */
+  #3B7075, /* Segundo color del degradado. */
+  #1D504B, /* Tercer color del degradado. */
+  #10393E /* Cuarto color del degradado. */
+  );
+  background-size: 200%; /* Establece el tamaño del fondo del degradado al 200% para la animación. */
+  -webkit-background-clip: text; /* Recorta el fondo al contorno del texto (para navegadores basados en WebKit). */
+  color: transparent; /* Hace que el color del texto sea transparente para mostrar el fondo degradado. */
+  animation: shine 5s linear infinite; /* Aplica una animación llamada "shine" que dura 5 segundos, es lineal y se repite infinitamente. */
   }
   
-  .productos-mas-vendidos h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
-    color: #145a50;
+  @keyframes shine {
+  /* Definición de la animación "shine" para el texto del título */
+  0% {
+  background-position: 0% 50%; /* Al inicio de la animación, la posición del fondo es 0% horizontal y 50% vertical. */
   }
   
-  .carrusel {
-    position: relative;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    overflow: hidden;
+  50% {
+  background-position: 100% 50%; /* A la mitad de la animación, la posición del fondo es 100% horizontal y 50% vertical (moviendo el degradado). */
   }
   
-  .contenedor-productos {
-    overflow-x: scroll;
-    display: flex;
-    gap: 20px;
-    padding: 10px;
-    cursor: grab;
-    scroll-behavior: smooth;
-    white-space: nowrap;
-    padding: 10px;
-    transition: transform 0.5s ease; /
+  100% {
+  background-position: 0% 50%; /* Al final de la animación, la posición del fondo vuelve al inicio. */
   }
-  .contenedor-productos::-webkit-scrollbar {
-    display: none;
   }
   
-  .contenedor-productos {
-    -ms-overflow-style: none;  /* IE y Edge */
-    scrollbar-width: none;     /* Firefox */
+  /* Contenedor del carrusel */
+  .carousel-container {
+  /* Estilos para el contenedor principal del carrusel */
+  position: relative; /* Establece la posición como relativa para que los botones de navegación se puedan posicionar absolutamente dentro. */
+  overflow: hidden; /* Oculta cualquier contenido del carrusel que exceda sus límites. */
+  width: 100%; /* Establece el ancho del carrusel al 100% de su contenedor padre. */
+  text-align: center; /* Centra el contenido dentro del carrusel (puede afectar elementos inline o inline-block). */
   }
+  
+  .carousel-track {
+  /* Estilos para la pista que contiene los elementos del carrusel */
+  overflow-x: scroll; /* Permite el desplazamiento horizontal si el contenido excede el ancho. */
+  display: flex; /* Utiliza flexbox para alinear los elementos del carrusel en una fila. */
+  gap: 20px; /* Añade un espacio de 20px entre los elementos del carrusel. */
+  padding: 10px; /* Añade un relleno de 10px alrededor de la pista del carrusel. */
+  cursor: grab; /* Cambia el cursor a una mano abierta para indicar que se puede arrastrar. */
+  scroll-behavior: smooth; /* Activa el desplazamiento suave al usar métodos de desplazamiento (como botones). */
+  white-space: nowrap; /* Evita que los elementos del carrusel se envuelvan a la siguiente línea. */
+  transition: transform 0.5s ease; /* Aplica una transición suave a la propiedad "transform" (usada para el arrastre) durante 0.5 segundos con una función de aceleración "ease". */
+  }
+  
+  .carousel-track::-webkit-scrollbar {
+  /* Estilos para ocultar la barra de desplazamiento horizontal en navegadores basados en WebKit (Chrome, Safari). */
+  display: none; /* Oculta la barra de desplazamiento. */
+  }
+  
+  .carousel-track.dragging {
+  /* Estilos aplicados a la pista del carrusel cuando se está arrastrando */
+  cursor: grabbing; /* Cambia el cursor a una mano cerrada para indicar que se está arrastrando. */
+  scroll-behavior: auto; /* Desactiva el desplazamiento suave durante el arrastre para una respuesta más directa. */
+  }
+  
   .carousel-item {
-    flex-shrink: 0;
-    width: 100px;
-    height: 200px;
-    border-radius: 20px;
-    overflow: hidden;
-    background: linear-gradient(135deg, transparent);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    user-select: none; /* Evita la selección de texto/imágenes */
-    -webkit-user-drag: none; /* Previene el arrastre de imágenes */
-    -webkit-touch-callout: none; /* Evita el menú contextual */
+  /* Estilos para cada elemento individual dentro del carrusel */
+  flex-shrink: 0; /* Evita que los elementos se encojan para ajustarse al contenedor. */
+  width: 200px; /* Establece el ancho de cada elemento del carrusel en 200px. */
+  height: 300px; /* Establece la altura de cada elemento del carrusel en 300px. */
+  border-radius: 20px; /* Redondea las esquinas de cada elemento con un radio de 20px. */
+  overflow: hidden; /* Oculta cualquier contenido dentro del elemento que exceda sus límites. */
+  background: linear-gradient(135deg, transparent); /* Aplica un degradado lineal transparente como fondo (puede ser para efectos visuales o para superponer otros estilos). */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Añade una sombra suave a cada elemento. */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Aplica transiciones suaves a las propiedades "transform" y "box-shadow" durante 0.3 segundos con una función de aceleración "ease". */
+  text-align: center; /* Centra el texto dentro de cada elemento. */
+  justify-content: center; /* Centra el contenido flexible verticalmente (si el elemento es un contenedor flex). */
+  align-items: center; /* Centra el contenido flexible horizontalmente (si el elemento es un contenedor flex). */
+  user-select: none; /* Evita que el usuario pueda seleccionar el texto o las imágenes dentro del elemento. */
+  -webkit-user-drag: none; /* Previene el arrastre de imágenes en navegadores basados en WebKit. */
+  -webkit-touch-callout: none; /* Evita que aparezca el menú contextual al mantener presionado en dispositivos táctiles (WebKit). */
   }
   
-  .contenedor-productos {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    padding: 10px;
-    scroll-snap-type: x mandatory;
-    max-width: 100%;
+  .carousel-item:hover {
+  /* Estilos aplicados a cada elemento del carrusel al pasar el cursor sobre él */
+  transform: scale(1.05); /* Escala el elemento al 105% de su tamaño original para un efecto de resaltado. */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Aumenta la intensidad de la sombra al pasar el cursor. */
   }
   
-  .producto {
-    flex: 0 0 180px; /* Tamaño más pequeño para que entren 6 */
-    scroll-snap-align: start;
-    background-color: #e9d6c0;
-    padding: 10px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    text-align: center;
+  .carousel-item img {
+  /* Estilos para las imágenes dentro de cada elemento del carrusel */
+  width: 100%; /* Establece el ancho de la imagen al 100% de su contenedor padre (el .carousel-item). */
+  height: auto; /* Mantiene la proporción de aspecto de la imagen ajustando la altura automáticamente. */
+  max-height: 250px; /* Establece una altura máxima para la imagen de 250px. */
+  object-fit: contain; /* Ajusta la imagen dentro de su contenedor manteniendo su proporción, añadiendo espacio en blanco si es necesario. */
+  border-radius: 15px; /* Redondea las esquinas de la imagen con un radio de 15px. */
+  -webkit-tap-highlight-color: transparent; /* Elimina el color de resaltado al tocar en dispositivos táctiles (WebKit). */
+  touch-action: pan-y; /* Permite solo el desplazamiento vertical táctil en la imagen, útil para evitar conflictos con el desplazamiento horizontal del carrusel. */
   }
   
-  .producto img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
+  .carousel-item p {
+  /* Estilos para los párrafos de texto dentro de cada elemento del carrusel */
+  text-align: center; /* Centra el texto del párrafo. */
+  font-weight: bold; /* Establece el texto del párrafo en negrita. */
+  color: #555; /* Establece el color del texto del párrafo a un gris oscuro. */
+  margin: 10px 0; /* Añade un margen de 10px en la parte superior e inferior del párrafo. */
   }
   
-  
-  .btn-carrusel {
-    position: absolute;
-    background-color: rgba(0,0,0,0.2);
-    color: white;
-    border: none;
-    font-size: 2em;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 10;
-    top: 50%;
-    transform: translateY(-50%);
+  /* Botones de navegación del carrusel */
+  .carousel-btn {
+  /* Estilos generales para los botones de navegación del carrusel (prev y next) */
+  position: absolute; /* Permite posicionar los botones relativamente al .carousel-container. */
+  top: 50%; /* Posiciona verticalmente los botones al 50% de la altura del contenedor. */
+  transform: translateY(-50%); /* Ajusta la posición verticalmente para centrar los botones. */
+  background: rgba(128, 128, 128, 0.5); /* Establece un fondo gris semitransparente para los botones. */
+  color: white; /* Establece el color del texto/icono de los botones en blanco. */
+  border: 2px solid rgba(255, 255, 255, 0.6); /* Añade un borde blanco semitransparente a los botones. */
+  padding: 10px; /* Añade un relleno de 10px dentro de los botones. */
+  width: 50px; /* Establece el ancho de los botones en 50px. */
+  height: 50px; /* Establece la altura de los botones en 50px. */
+  border-radius: 50%; /* Redondea las esquinas de los botones para hacerlos circulares. */
+  cursor: pointer; /* Cambia el cursor a una mano para indicar que los botones son interactivos. */
+  z-index: 10; /* Asegura que los botones estén por encima del contenido del carrusel. */
+  display: flex; /* Utiliza flexbox para alinear el contenido (icono de flecha) dentro del botón. */
+  align-items: center; /* Centra verticalmente el contenido flexible dentro del botón. */
+  justify-content: center; /* Centra horizontalmente el contenido flexible dentro del botón. */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Añade una sombra sutil a los botones. */
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease; /* Aplica transiciones suaves a las propiedades "transform", "background" y "box-shadow" durante 0.3 segundos con una función de aceleración "ease". */
   }
   
-  .btn-carrusel.izq {
-    left: 0;
+  /* Efecto hover */
+  .carousel-btn:hover {
+  /* Estilos aplicados a los botones del carrusel al pasar el cursor sobre ellos */
+  background: rgba(128, 128, 128, 0.8); /* Hace el fondo del botón más sólido al pasar el cursor. */
+  transform: scale(1.1); /* Escala el botón al 110% de su tamaño original al pasar el cursor. */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); /* Hace la sombra del botón más pronunciada al pasar el cursor. */
   }
   
-  .btn-carrusel.der {
-    right: 0;
-  }
-  .categorias {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    padding: 20px;
-    margin-top: 20px;
+  /* Efecto activo (cuando se presiona el botón) */
+  .carousel-btn:active {
+  /* Estilos aplicados a los botones del carrusel cuando se hace clic en ellos */
+  transform: scale(0.95); /* Reduce ligeramente el tamaño del botón al hacer clic. */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Hace la sombra del botón menos pronunciada al hacer clic. */
   }
   
-  .btn-categoria {
-    background-color: #1d4b45;
-    color: #f5c15d;
-    padding: 15px 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    text-align: center;
-    min-width: 120px;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.3s;
+  /* Posición de los botones */
+  #prev {
+  /* Estilos específicos para el botón "anterior" */
+  left: 20px; /* Posiciona el botón a 20px del borde izquierdo del contenedor del carrusel. */
   }
-  /* === Menú hamburguesa === */
+  
+  #next {
+  /* Estilos específicos para el botón "siguiente" */
+  right: 20px; /* Posiciona el botón a 20px del borde derecho del contenedor del carrusel. */
+  }
+  
+  /* Iconos de flecha */
+  #prev::before,
+  #next::before {
+  /* Estilos generales para los pseudo-elementos que crearán las flechas */
+  content: ''; /* Necesario para que el pseudo-elemento se muestre. */
+  display: inline-block; /* Permite establecer ancho y alto. */
+  width: 12px; /* Establece el ancho de la flecha en 12px. */
+  height: 12px; /* Establece la altura de la flecha en 12px. */
+  border-width: 3px; /* Establece el grosor de los bordes de la flecha en 3px. */
+  border-style: solid; /* Establece el estilo de los bordes como sólido. */
+  border-color: white; /* Establece el color de los bordes (la flecha) en blanco. */
+  }
+  
+  /* Flecha izquierda */
+  #prev::before {
+  /* Estilos específicos para la flecha del botón "anterior" */
+  border-top: none; /* Elimina el borde superior para formar la punta de la flecha. */
+  border-right: none; /* Elimina el borde derecho para formar la punta de la flecha. */
+  transform: rotate(45deg); /* Rota el cuadrado para formar una flecha apuntando a la izquierda (<). */
+  }
+  
+  /* Flecha derecha */
+  #next::before {
+  /* Estilos específicos para la flecha del botón "siguiente" */
+  border-top: none; /* Elimina el borde superior para formar la punta de la flecha. */
+  border-left: none; /* Elimina el borde izquierdo para formar la punta de la flecha. */
+  transform: rotate(-45deg); /* Rota el cuadrado para formar una flecha apuntando a la derecha (>). */
+  }
+  /* --- Contenedor Principal de Categorías --- */
+.categorias {
+  display: flex;            /* Usa Flexbox para alinear los elementos hijos (botones). */
+  flex-wrap: wrap;         /* Permite que los botones pasen a la siguiente línea si no caben en una sola. */
+  justify-content: center; /* Centra los botones horizontalmente dentro del contenedor. */
+  gap: 15px;               /* Define un espacio de 15px entre cada botón de categoría. */
+  padding: 20px;           /* Añade un relleno de 20px alrededor de todos los botones. */
+  margin-top: 20px;        /* Añade un margen de 20px en la parte superior del contenedor. */
+}
+/* --- Estilo de Cada Botón de Categoría --- */
+.btn-categoria {
+  background-color: #1d4b45; /* Color de fondo del botón (un verde oscuro). */
+  color: #f5c15d;           /* Color del texto del botón (un tono dorado/amarillo). */
+  padding: 15px 20px;      /* Relleno interno: 15px arriba/abajo, 20px izquierda/derecha. */
+  border-radius: 10px;     /* Redondea las esquinas del botón. */
+  font-weight: bold;       /* Pone el texto en negrita. */
+  text-align: center;      /* Centra el texto dentro del botón. */
+  min-width: 120px;        /* Asegura que el botón tenga al menos 120px de ancho. */
+  cursor: pointer;         /* Cambia el cursor a una 'mano' al pasar sobre el botón, indicando que es clickeable. */
+  transition: transform 0.2s ease, background-color 0.3s; /* Anima suavemente los cambios en 'transform' (escala) y 'background-color'. */
+}
+/* === Estilo del Botón Menú Hamburguesa === */
 .menu-toggle {
-  display: none;
-  background-color: #1d4b45;
-  color: #f5c15d;
-  font-size: 24px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin: 10px auto;
-  text-align: center;
+  display: none;             /* Oculta el botón por defecto (se mostrará en pantallas pequeñas). */
+  background-color: #1d4b45; /* Color de fondo, igual al de los botones de categoría. */
+  color: var(--main-text-color);;           /* Color del icono o texto (ej. '☰'), igual al texto de los botones. */
+  font-size: 24px;           /* Tamaño del icono o texto del botón hamburguesa. */
+  padding: 10px 20px;      /* Relleno interno del botón. */
+  border: none;              /* Quita cualquier borde por defecto. */
+  border-radius: 10px;     /* Redondea las esquinas. */
+  cursor: pointer;         /* Cursor de 'mano' al pasar sobre él. */
+  margin: 10px auto;       /* Margen: 10px arriba/abajo, 'auto' izquierda/derecha para centrarlo horizontalmente si es un bloque. */
+  text-align: center;      /* Centra el texto/icono dentro del botón. */
 }
-
-
-/* Estilo para menú oculto/visible */
+/* --- Estilo para el contenedor de categorías cuando está oculto (Opcional/Alternativo) --- */
+/* Nota: En tu media query usas la clase '.mostrar' para hacerlo visible, 
+   por lo que esta clase '.oculto' podría no ser necesaria tal como está implementado abajo. 
+   Originalmente, podrías haberla usado para forzar el ocultamiento. */
 .categorias.oculto {
-  display: none;
-  flex-direction: column;
+  display: none;             /* Oculta completamente el contenedor. */
+  /* Estas reglas se aplicarían si '.oculto' estuviera presente, 
+     pero como display es none, no tendrían efecto visual inmediato. */
+  flex-direction: column;    
   align-items: center;
 }
 
-/* RESPONSIVE */
+
+
+/* --- Contenedor Principal de Categorías (Vista Escritorio) --- */
+.categorias { 
+  display: flex;             /* Usa Flexbox para alinear los botones hijos. */
+  flex-wrap: wrap;         /* Permite que los botones pasen a la siguiente línea si no caben. */
+  justify-content: center; /* Centra los botones horizontalmente. */
+  gap: 15px;               /* Espacio de 15px entre botones. */
+  padding: 20px;           /* Relleno interior del contenedor. */
+  margin-top: 20px;        /* Margen superior para separarlo de elementos previos. */
+}
+
+/* --- Estilo de Cada Botón de Categoría (Vista Escritorio) --- */
+.btn-categoria { 
+  background-color: #1d4b45; /* Color de fondo verde oscuro. */
+  color:var(--main-text-color);;           /* Color de texto dorado/amarillo. */
+  padding: 15px 20px;      /* Relleno interno (15px arriba/abajo, 20px izq/der). */
+  border-radius: 10px;     /* Esquinas redondeadas. */
+  font-weight: bold;       /* Texto en negrita. */
+  text-align: center;      /* Texto centrado. */
+  min-width: 120px;        /* Ancho mínimo para cada botón. */
+  cursor: pointer;         /* Cursor de 'mano' al pasar encima. */
+  transition: transform 0.2s ease, background-color 0.3s; /* Transiciones suaves para hover. */
+}
+
+ /* --- Efecto Hover para Botones de Categoría (Vista Escritorio) --- */
+.btn-categoria:hover { 
+  background-color: #27665c; /* Cambia el fondo a un verde más claro al pasar el mouse. */
+  transform: scale(1.05);    /* Aumenta ligeramente el tamaño (5%). */
+}
+
+/* === REGLAS RESPONSIVE (Aplicables en pantallas de 768px o menos) === */
 @media (max-width: 768px) {
+
+  /* --- Contenedor de Categorías (Menú Lateral - Estado Base Oculto en Móvil) --- */
   .categorias {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    /* --- Posicionamiento y Dimensiones --- */
+    position: fixed;           /* Posición fija: Se queda en un lugar de la ventana, aunque se haga scroll. */
+    top: 0;                    /* Pegado a la parte superior de la ventana. */
+    left: 0;                   /* Pegado al lado izquierdo de la ventana. */
+    width: 80%;                /* Ocupa el 80% del ancho de la ventana (ajustable). */
+    max-width: 320px;          /* Ancho máximo de 320px, para no ser demasiado ancho en pantallas intermedias. */
+    height: 100%;              /* Ocupa el 100% de la altura de la ventana. */
+    background-color: #dad9d5; /* Color de fondo blanco para el panel lateral. */
+    z-index: 999;              /* Profundidad en la pila de elementos (menor que el botón de menú). */
+    
+    /* --- Layout Interno (Flexbox para los elementos dentro del menú) --- */
+    display: flex;             /* Habilita Flexbox para organizar los ítems internos. */
+    flex-direction: column;    /* Apila los ítems (botones/links) uno debajo del otro. */
+    align-items: stretch;      /* Estira los ítems para que ocupen todo el ancho del menú. */
+    padding: 60px 0 20px 0;    /* Relleno: 60px arriba (espacio para botón cerrar), 0 izq/der, 20px abajo. */
+                               /* El padding lateral se aplicará a los items internos. */
+    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2); /* Sombra a la derecha para dar efecto de profundidad. */
+    overflow-y: auto;          /* Añade una barra de scroll vertical si el contenido excede la altura. */
+
+    /* --- Transición para Animación Slide-In --- */
+    transform: translateX(-100%); /* Estado inicial: Totalmente movido a la izquierda (fuera de la pantalla). */
+    transition: transform 0.3s ease-in-out; /* Anima la propiedad 'transform' durante 0.3s con aceleración suave. */
   }
 
+  /* --- Contenedor de Categorías (Menú Lateral - Estado Visible en Móvil) --- */
+  /* Esta regla se aplica CUANDO el elemento .categorias TAMBIÉN tiene la clase .mostrar */
   .categorias.mostrar {
-    display: flex;
+    transform: translateX(0);    /* Mueve el panel a su posición original (visible en pantalla), activando la animación. */
   }
 
+  /* --- Estilo de los "Botones" DENTRO del Menú Lateral Visible --- */
+  /* Modifica cómo se ven los .btn-categoria cuando están dentro del menú abierto */
+  .categorias.mostrar .btn-categoria {
+    background-color: transparent; /* Quita el color de fondo que tenían como botones. */
+    color: #333;                /* Establece un color de texto oscuro (ej. gris oscuro). */
+    padding: 12px 20px;          /* Relleno interno: 12px arriba/abajo, 20px izquierda/derecha. */
+    border-radius: 0;            /* Quita las esquinas redondeadas. */
+    font-weight: normal;         /* Usa un peso de fuente normal (no negrita). */
+    text-align: left;            /* Alinea el texto a la izquierda. */
+    min-width: auto;             /* Permite que el ancho sea determinado por el contenido/padding. */
+    width: 100%;                 /* Hace que el elemento ocupe todo el ancho disponible dentro del menú. */
+    border: none;                /* Asegura que no haya bordes. */
+    border-bottom: 1px solid #eee; /* Añade una línea separadora gris muy clara debajo de cada ítem. */
+    transition: none;            /* Desactiva las transiciones heredadas del estilo de botón base. */
+    cursor: pointer;             /* Mantiene el cursor tipo 'mano' para indicar que es clickeable. */
+  }
+  
+  /* --- Estilo para el Último "Botón" Dentro del Menú --- */
+  /* Selecciona el último .btn-categoria dentro del menú visible */
+  .categorias.mostrar .btn-categoria:last-child {
+       border-bottom: none;       /* Le quita la línea separadora inferior al último elemento. */
+  }
+
+
+  /* --- Efecto Hover para los "Botones" Dentro del Menú Lateral --- */
+  /* Define cómo se ven los ítems del menú al pasar el ratón por encima */
+  .categorias.mostrar .btn-categoria:hover {
+      background-color: #dad9d5; /* Cambia el fondo a un gris muy claro (efecto sutil). */
+      color: #1d4b45;           /* Cambia el color del texto al verde original (opcional). */
+      transform: none;           /* Asegura que no haya ninguna transformación (como el scale del botón base). */
+    }
+
+
+  /* --- Estilo del Botón Hamburguesa/Cerrar (en Móvil) --- */
+  /* Este botón controla la aparición/desaparición del menú */
   .menu-toggle {
-    display: block;
+    display: block;            /* Hace visible el botón en pantallas pequeñas. */
+    position: fixed;           /* Posición fija respecto a la ventana. */
+    top: 15px;                 /* A 15px del borde superior. */
+    left: 15px;                /* A 15px del borde izquierdo. */
+    z-index: 1000;             /* Profundidad alta para estar SIEMPRE ENCIMA del menú lateral. */
+    margin: 0;                 /* Elimina cualquier margen previo. */
+    /* --- Estilos visuales heredados o reconfirmados --- */
+    background-color: transparent; /* Fondo verde oscuro. */
+    color:var(--main-text-color);;           /* Color dorado/amarillo para el icono (☰ o X). */
+    font-size: 28px;           /* Tamaño del icono. */
+    padding: 10px 15px;        /* Relleno interno. */
+    border: none;              /* Sin borde. */
+    border-radius: 10px;       /* Esquinas redondeadas. */
+    cursor: pointer;           /* Cursor de 'mano'. */
+    text-align: center;        /* Centrado del icono/texto interno. */
+    /* NOTA: Necesitarás JS para cambiar el icono de ☰ a X cuando el menú esté abierto. */
   }
 }
+/* Contenedor principal que agrupa todo el contenido */
+.plantilla {
+display: grid; /* Diseño en cuadrícula */
+grid-template-columns: 1fr 2fr; /* Dos columnas: izquierda más pequeña */
+grid-template-rows: 1fr auto; /* Primer área toma el resto, la segunda área ajusta su tamaño */
+gap: 12px; /* Mayor separación entre columnas */
+background-color: white; /* Fondo blanco */
+padding: 16px; /* Aumenta el padding para hacerlo más espacioso */
+width: 300px; /* Aumento el ancho para ajustarse al contenido */
+height: 400px; /* Aumento la altura para permitir más espacio */
+max-width: 500px; /* Límite máximo mayor */
+margin: auto; /* Centrado horizontal */
+font-family: 'Arial', sans-serif;
+border: 1px solid #ccc; /* Borde sutil */
+align-items: start;
+box-sizing: border-box; /* Incluye padding y borde dentro del tamaño total */
+border-radius: 10px; /* Esquinas redondeadas para un look más moderno */
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave debajo */
+}
 
-  
-  .btn-categoria:hover {
-    background-color: #27665c;
-    transform: scale(1.05);
-  }
-  .product-image {
-    transition: transform 0.3s ease;
-  }
-  
-  .product-image:hover {
-    transform: scale(1.2);
-    z-index: 2;
-    position: relative;
-  }
-  .category {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .category button {
-    background-color: #184c3a;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .product-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .product-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 250px;
-    text-align: center;
-    position: relative;
-    overflow: visible;
-  }
-  
-  .product-image-container {
-    overflow: visible;
-    border-radius: 10px;
-  }
-  
-  .product-image {
-    width: 100%;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    cursor: pointer;
-    z-index: 2;
-    position: relative;
-    border: 3px solid black; 
-    border-radius: 10px;  
-  }
-  .small-images {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-    gap: 10px;
-  }
-  .small-image {
-    width: 60px; /* Tamaño de la miniatura */
-    transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
-    cursor: pointer;
-    border: 2px solid black; /* ✅ Borde negro */
-    border-radius: 10px;      /* ✅ Bordes curvos */
-  }
-  
-  .small-image:hover {
-    transform: scale(1.9); /* ✅ Aumenta tamaño al pasar el mouse */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-    border: 3px solid black; /* ✅ Borde un poquito más grueso en hover */
-    z-index: 2;
-    position: relative;
-  }
-  
-  .product-image:hover {
-    background-color: #27665c;
-    transform: scale(1.2);
-    border: 4px solid black;
-    border-radius: 10px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    z-index: 3;
-   position: relative;
-  }
-  
-  .product-details {
-    margin-top: 15px;
-  }
-  
-  .thumbnail-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    gap: 5px;
-  }
-  
-  .thumbnail-container img {
-    width: 50px;
-    height: 50px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-  
-  .thumbnail-container img:hover {
-    transform: scale(1.7);
-  }
+/* Columna izquierda con las imágenes pequeñas en forma vertical */
+.imagenes-secundarias {
+display: flex; /* Usa flexbox para organizar los elementos */
+flex-direction: column; /* Coloca los elementos en columna */
+gap: 12px; /* Mayor espacio entre cada imagen */
+max-height: none; /* Eliminamos el límite de altura para que las imágenes se expandan */
+overflow: visible; /* Deshabilitamos la barra deslizante */
+justify-content: space-between; /*Distribuye el espacio entre elementos*/
+}
 
-  /*ADMINISTRACION 
- /* Centrado del contenedor inicial */
+/* Estilo para cada imagen pequeña */
+.imagenes-secundarias img {
+cursor: pointer; /* Cursor de mano para indicar que se puede hacer clic */
+width: 100%; /* Ocupa todo el ancho disponible */
+aspect-ratio: 1/1; /* Mantener proporción cuadrada */
+border-radius: 5px; /* Bordes redondeados para las esquinas */
+object-fit: cover; /* Ajusta la imagen sin deformarla */
+border: 0.5px solid black; /* Borde negro */
+transition: transform 0.3s ease, border 0.2s ease; /* Transición suave para el zoom */
+}
+
+/* Efecto de hover para hacer zoom en la imagen */
+.imagenes-secundarias img:hover {
+transform: scale(1.1); /* Hace un zoom suave al pasar el mouse */
+border-color: var(--main-bg-color); /* Cambia el borde a un color azul al hacer hover */
+}
+
+/* Contenedor de la imagen principal a la derecha */
+.imagen-principal {
+position: relative; /* Para que la imagen pueda sobresalir dentro del flujo */
+transition: all 0.3s ease-in-out; /* Animación suave al cambiar la imagen */
+overflow: visible; /* Permite que la imagen se desborde si se hace más grande */
+z-index: 1; /* Asegura que la imagen esté por encima de otros elementos */
+height: 100%; /* Ocupa toda la altura de su celda */
+}
+
+/* Estilo para la imagen grande principal */
+.imagen-principal img {
+width: 100%; /* Ocupa todo el ancho del contenedor */
+height: auto;
+max-height: 200px; /* Limita la altura máxima de la imagen */
+border-radius: 5px; /* Bordes redondeados */
+object-fit: cover; /* Asegura que se vea bien ajustada */
+border: 1px solid black; /* Borde negro */
+transition: transform 0.4s ease; /* Transición suave para el efecto zoom */
+transform-origin: center center; /* Hace el zoom desde el centro */
+}
+
+/* Zoom cuando se activa (por clase o interacción JS) */
+.imagen-principal:hover img {
+transform: scale(1.15); /* Aumenta la imagen un 15% */
+}
+
+/* Texto del nombre del modelo (por ejemplo: NORMA) */
+.nombre-modelo {
+text-align: center; /* Centra el texto horizontalmente */
+font-weight: bold; /* Letra en negrita */
+font-size: 12px; /* Tamaño adecuado para visibilidad */
+margin-top: 12px; /* Espacio superior respecto al contenido anterior */
+}
+
+/* Contenedor para los detalles del producto */
+.detalles-producto {
+background-color: white; /* Blanco como en el ejemplo */
+padding: 6px 8px; /* Espaciado interno para claridad */
+margin-top: 10px; /* Espacio superior respecto a la imagen */
+border-radius: 5px; /* Esquinas redondeadas */
+font-size: 12px; /* Tamaño más legible */
+line-height: 1.4; /* Espaciado entre líneas del texto */
+text-align: right; /* Alineación del texto a la derecha */
+width: 100%;
+box-sizing: border-box;
+overflow: hidden; /* Prevenir que el contenido se desborde */
+white-space: normal;
+}
+
+/* Estilo especial para la línea de referencia (Ref: P055) */
+.detalles-producto .referencia {
+font-weight: bold; /* Texto en negrita para destacarlo */
+font-size: 18px; /* Un poco más grande que el resto del texto */
+}
+
+/* Estilo para el precio del producto */
+.detalles-producto .precio {
+color: #333; /* Color gris oscuro para resaltar */
+font-weight: bold; /* En negrita */
+font-size: 16px; /* Tamaño del precio */
+}
+
+/* Contenedor de los colores disponibles */
+.colores-disponibles {
+display: grid; /* Usa grid para organizar los colores como una tabla */
+grid-template-columns: repeat(2, 0fr); /* Dos columnas de igual tamaño */
+gap: -4; /* Sin espacio entre los círculos de color */
+margin-top: -60px; /* Espacio superior respecto a las imágenes */
+justify-content: flex-start; /* Centra los colores horizontalmente */
+width: 90%;
+flex-wrap: wrap;
+text-align: center; /* Alinea los elementos al centro */
+grid-column:span 2; /* Hace que el contenedor ocupe toda la fila de la plantilla */
+overflow: hidden; /* Prevenir que el contenido se desborde */
+
+}
+
+/* Estilo para cada círculo de color */
+.colores-disponibles .color {
+width: 18px; /* Tamaño del círculo reducido */
+height: 18px; /* Tamaño del círculo reducido */
+border-radius: 50%; /* Hace que el elemento sea circular */
+border: 1px solid #ccc; /* Borde gris claro */
+cursor: pointer; /* Cambia el cursor al pasar sobre el color */
+transition: transform 0.2s ease; /* Transición suave al interactuar */
+}
+
+/* Efecto al pasar el cursor sobre un color */
+.colores-disponibles .color:hover {
+transform: scale(1.2); /* Aumenta ligeramente el tamaño del círculo */
+border-color: #333; /* Oscurece el borde para resaltar */
+}
+
+
+
+/* ==========================================================================
+ ESTILOS PARA LA SECCIÓN DE ADMINISTRACIÓN
+ ========================================================================== */
+
+/*
+ Centrado del contenedor inicial que usualmente contiene el botón principal de acceso
+ a las funcionalidades de administración.
+*/
 .admin-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
+  display: flex; /* Utiliza Flexbox para el diseño */
+  justify-content: center; /* Centra los elementos horizontalmente */
+  align-items: center; /* Centra los elementos verticalmente */
+  height: 200px; /* Establece una altura para el contenedor */
 }
 
-/* Botón principal de administrador */
+/*
+   Estilos para el botón principal de administrador. Este botón suele ser el punto
+   de entrada a las opciones de administración.
+*/
 .admin-button {
-  background-color: #1d4b45;
-  color:#f5c15d;
-  border: none;
-  padding: 15px 30px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s;
+  background-color: #1d4b45; /* Color de fondo verde oscuro */
+  color: #f5c15d; /* Color de texto amarillo dorado */
+  border: none; /* Elimina el borde del botón */
+  padding: 15px 30px; /* Espaciado interno (arriba/abajo, izquierda/derecha) */
+  border-radius: 10px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima, indicando interactividad */
+  font-size: 16px; /* Tamaño de la fuente */
+  font-weight: bold; /* Texto en negrita */
+  transition: background-color 0.3s; /* Transición suave para el cambio de color de fondo */
 }
 
+/*
+   Estilo para el estado hover del botón principal de administrador.
+   Se aplica cuando el usuario pasa el ratón por encima del botón.
+*/
 .admin-button:hover {
-  background-color: #16635b;
-
+  background-color: #16635b; /* Color de fondo ligeramente más claro al pasar el ratón */
 }
 
-/* Vista inicial de opciones */
+/*
+   Estilos para la vista inicial de opciones de administración.
+   Normalmente contiene varios botones para diferentes acciones administrativas.
+*/
 #vistaInicial button {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 12px;
-  border: none;
-  background-color: #1d4b45;
-  color:  #f5c15d;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+  width: 100%; /* Ocupa todo el ancho disponible dentro de su contenedor */
+  margin-bottom: 10px; /* Espacio inferior entre los botones */
+  padding: 12px; /* Espaciado interno del botón */
+  border: none; /* Elimina el borde del botón */
+  background-color: #1d4b45; /* Color de fondo verde oscuro */
+  color: #f5c15d; /* Color de texto amarillo dorado */
+  border-radius: 5px; /* Bordes ligeramente redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  font-size: 16px; /* Tamaño de la fuente */
 }
 
+/*
+   Estilo para el estado hover de los botones en la vista inicial.
+*/
 #vistaInicial button:hover {
-  background-color: #16635b;
-  
+  background-color: #16635b; /* Color de fondo ligeramente más claro al pasar el ratón */
 }
 
-/* Modal general */
+/*
+   Estilos generales para el modal (ventana emergente).
+*/
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  background-color: rgba(0, 0, 0, 0.7);
+  display: none; /* Oculta el modal por defecto */
+  position: fixed; /* Posicionamiento fijo en la ventana del navegador */
+  z-index: 1000; /* Asegura que el modal esté por encima de otros elementos */
+  left: 0; /* Se extiende desde el borde izquierdo de la ventana */
+  top: 0; /* Se extiende desde la parte superior de la ventana */
+  width: 100%; /* Ocupa todo el ancho de la ventana */
+  height: 100%; /* Ocupa toda la altura de la ventana */
+  overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es demasiado largo */
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente oscuro para oscurecer el contenido detrás */
 }
 
-/* Contenido del modal */
+/*
+   Estilos para el contenido interno del modal.
+*/
 .modal-contenido {
-  background-color: #fff;
-  margin: 40px auto;
-  padding: 20px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 700px;
-  position: relative;
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  background-color: #fff; /* Fondo blanco del contenido del modal */
+  margin: 40px auto; /* Márgenes superior/inferior y centrado horizontal */
+  padding: 20px; /* Espaciado interno del contenido */
+  border-radius: 10px; /* Bordes redondeados del contenido */
+  width: 90%; /* Ancho del contenido, adaptable */
+  max-width: 700px; /* Ancho máximo del contenido */
+  position: relative; /* Permite posicionar elementos dentro de él de forma absoluta */
+  text-align: center; /* Centra el texto dentro del contenido */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra suave para destacar el modal */
 }
 
-/* Botón de cerrar (X) */
+/*
+   Estilos para el botón de cerrar el modal (la "X").
+*/
 .cerrar {
-  background-color: #1d4b45;
-  color:  #f5c15d;
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
+  background-color: #1d4b45; /* Color de fondo verde oscuro */
+  color: #f5c15d; /* Color de texto amarillo dorado */
+  position: absolute; /* Posicionamiento absoluto dentro del .modal-contenido */
+  top: 15px; /* Distancia desde la parte superior */
+  right: 20px; /* Distancia desde la derecha */
+  font-size: 28px; /* Tamaño de la fuente de la "X" */
+  font-weight: bold; /* Texto en negrita */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
 }
 
+/*
+   Estilos para el estado hover y focus del botón de cerrar.
+*/
 .cerrar:hover,
 .cerrar:focus {
-  color: black;
+  color: black; /* Cambia el color del texto a negro al pasar el ratón o enfocar */
 }
 
-/* Formularios */
+/*
+   Estilos para los formularios dentro del modal.
+*/
 .modal-contenido form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: flex; /* Utiliza Flexbox para organizar los elementos del formulario */
+  flex-direction: column; /* Coloca los elementos del formulario en columna */
+  gap: 10px; /* Espacio entre los elementos del formulario */
 }
 
+/*
+   Estilos para las etiquetas (labels) de los campos del formulario.
+*/
 .modal-contenido label {
-  text-align: left;
-  font-weight: bold;
+  text-align: left; /* Alinea el texto de la etiqueta a la izquierda */
+  font-weight: bold; /* Texto de la etiqueta en negrita */
 }
 
+/*
+   Estilos para los campos de entrada (input), selectores (select) y áreas de texto (textarea) del formulario.
+*/
 .modal-contenido input,
 .modal-contenido select,
 .modal-contenido textarea {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  width: 100%;
-  box-sizing: border-box;
+  padding: 8px; /* Espaciado interno del campo */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 6px; /* Bordes ligeramente redondeados */
+  font-size: 14px; /* Tamaño de la fuente del texto dentro del campo */
+  width: 100%; /* Ocupa todo el ancho disponible dentro de su contenedor */
+  box-sizing: border-box; /* Incluye el padding y el borde en el ancho total del elemento */
 }
 
-/* Botones dentro de formularios */
+/*
+   Estilos para los botones dentro de los formularios del modal.
+*/
 .modal-contenido form button {
-  margin-top: 15px;
-  padding: 10px;
-  background-color: #1d4b45;
-  color:  #f5c15d;;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 15px;
+  margin-top: 15px; /* Margen superior para separar el botón de otros elementos */
+  padding: 10px; /* Espaciado interno del botón */
+  background-color: #1d4b45; /* Color de fondo verde oscuro */
+  color: #f5c15d; /* Color de texto amarillo dorado */
+  border: none; /* Elimina el borde del botón */
+  border-radius: 6px; /* Bordes ligeramente redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  font-size: 15px; /* Tamaño de la fuente del texto del botón */
 }
 
+/*
+   Estilo para el estado hover de los botones dentro de los formularios.
+*/
 .modal-contenido form button:hover {
-  background-color: #16635b;
+  background-color: #16635b; /* Color de fondo ligeramente más claro al pasar el ratón */
 }
 
-/* Botón cancelar o alternativo */
+/*
+   Estilos para el botón de cancelar u otro botón alternativo dentro del modal.
+*/
 .modal-contenido button[type="button"] {
-  background-color: #16635b;
-  color:  #f5c15d;
+  background-color: #16635b; /* Color de fondo ligeramente más claro (similar al hover) */
+  color: #f5c15d; /* Color de texto amarillo dorado */
 }
 
+/*
+   Estilo para el estado hover del botón de cancelar u alternativo.
+*/
 .modal-contenido button[type="button"]:hover {
-  background-color: #16635b;
-  color:  #f5c15d;
+  background-color: #16635b; /* Mantiene el mismo color de fondo en hover */
+  color: #f5c15d; /* Mantiene el mismo color de texto en hover */
 }
 
-/* Imagen previa */
+/*
+   Estilos para la vista previa de la imagen que se va a cargar.
+*/
 #previewImagen,
 #previewImagenMasVendido {
-  width: 100px;
-  height: auto;
-  margin-top: 10px;
-  border-radius: 8px;
-  object-fit: cover;
-  display: none;
+  width: 100px; /* Ancho fijo de la imagen de vista previa */
+  height: auto; /* Altura automática para mantener la proporción */
+  margin-top: 10px; /* Margen superior para separarla de otros elementos */
+  border-radius: 8px; /* Bordes ligeramente redondeados */
+  object-fit: cover; /* Ajusta la imagen para cubrir el contenedor manteniendo la proporción, puede recortar partes */
+  display: none; /* Oculta la vista previa por defecto hasta que se cargue una imagen */
 }
 
-/* Vista de productos */
+/*
+   Estilos para la visualización de los productos en la interfaz de administración.
+*/
 .producto-item {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 10px;
-  text-align: center;
-  width: 220px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  display: inline-block;
-  vertical-align: top;
-  box-sizing: border-box;
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 8px; /* Bordes ligeramente redondeados */
+  padding: 16px; /* Espaciado interno del elemento del producto */
+  margin: 10px; /* Márgenes alrededor del elemento del producto */
+  text-align: center; /* Centra el texto dentro del elemento del producto */
+  width: 220px; /* Ancho fijo del elemento del producto */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra suave para dar relieve */
+  background-color: #fff; /* Fondo blanco del elemento del producto */
+  display: inline-block; /* Permite que los elementos se muestren en línea pero con propiedades de bloque (ancho, alto, márgenes) */
+  vertical-align: top; /* Alinea la parte superior de los elementos en línea */
+  box-sizing: border-box; /* Incluye el padding y el borde en el ancho total */
 }
 
+/*
+   Estilos para la imagen dentro del elemento del producto.
+*/
 .producto-item img {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto 10px;
+  width: 100px; /* Ancho fijo de la imagen del producto */
+  height: 100px; /* Alto fijo de la imagen del producto */
+  object-fit: contain; /* Ajusta la imagen para que quepa dentro del contenedor manteniendo la proporción, sin recortar */
+  display: block; /* Ocupa todo el ancho disponible de su contenedor padre */
+  margin: 0 auto 10px; /* Centra horizontalmente la imagen y añade un margen inferior */
 }
 
+/*
+   Estilos para el nombre o título del producto (generalmente en negrita).
+*/
 .producto-item strong {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 16px;
-  color: #333;
+  display: block; /* Ocupa todo el ancho disponible */
+  margin-bottom: 6px; /* Margen inferior */
+  font-size: 16px; /* Tamaño de la fuente */
+  color: #333; /* Color de texto oscuro */
 }
 
+/*
+   Estilos para la descripción o precio del producto (párrafo).
+*/
 .producto-item p {
-  margin: 4px 0;
-  font-size: 14px;
-  color: #555;
+  margin: 4px 0; /* Márgenes superior e inferior */
+  font-size: 14px; /* Tamaño de la fuente */
+  color: #555; /* Color de texto grisáceo */
 }
 
+/*
+   Estilos para los botones de acción del producto (editar, eliminar, etc.).
+*/
 .producto-item button {
-  margin-top: 10px;
-  background-color: #1d4b45;
-  color:  #f5c15d;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
+  margin-top: 10px; /* Margen superior */
+  background-color: #1d4b45; /* Color de fondo verde oscuro */
+  color: #f5c15d; /* Color de texto amarillo dorado */
+  border: none; /* Elimina el borde */
+  padding: 6px 12px; /* Espaciado interno */
+  border-radius: 4px; /* Bordes ligeramente redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  font-size: 14px; /* Tamaño de la fuente */
 }
 
+/*
+   Estilo para el estado hover de los botones de acción del producto.
+*/
 .producto-item button:hover {
-  background-color: #166a5c;
+  background-color: #166a5c; /* Color de fondo ligeramente más claro al pasar el ratón */
 }
 
-/* Responsive productos */
+/* ==========================================================================
+   MEDIA QUERIES PARA RESPONSIVE DESIGN (PARA PANTALLAS MÁS PEQUEÑAS)
+   ========================================================================== */
+
+/*
+   Media query para pantallas con un ancho máximo de 768px (tabletas y dispositivos móviles).
+*/
 @media (max-width: 768px) {
+  /*
+     En pantallas pequeñas, los elementos de la lista de productos ocupan todo el ancho disponible.
+  */
   .producto-item {
-    width: 100%;
-    max-width: 300px;
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    max-width: 300px; /* Establece un ancho máximo para evitar que se extiendan demasiado en pantallas grandes */
   }
 
+  /*
+     En pantallas pequeñas, el modal ocupa un porcentaje mayor del ancho de la pantalla.
+  */
   .modal-contenido {
-    width: 95%;
+    width: 95%; /* Ocupa el 95% del ancho de la pantalla */
   }
 }
+

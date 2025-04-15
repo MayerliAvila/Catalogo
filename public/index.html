@@ -1,67 +1,75 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es"> <!-- Define el idioma principal del documento como español -->
+
 <head>
-  <meta charset="UTF-8">
-  <title>Oki - Tienda</title>
-  
-  <!-- Estilos -->
-  <link rel="stylesheet" href="estilos.css">
+  <meta charset="UTF-8"> <!-- Codificación de caracteres para soportar tildes, ñ, etc. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive para dispositivos móviles -->
+  <title>Administrador OKI</title> <!-- Título que aparece en la pestaña del navegador -->
+
+  <!-- Enlace a la hoja de estilos externa -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
 
-  <!-- Encabezado -->
-  <header>
-    <div class="header-container">
-      <img src="logo.png" alt="Logo" class="logo">
-      <h1 class="golden-text">Vive cada momento con estilo</h1>
+<body>
+  <!-- ===================== ENCABEZADO ===================== -->
+  <header class="header"> <!-- Sección superior con logo y eslogan -->
+    <div class="site-container"> <!-- Contenedor para alinear el contenido del header -->
+      <div class="header-titles">
+        <img src="logo.png" alt="Logo" class="logo"> <!-- Logo de la tienda -->
+        <p class="eslogan">Vive cada momento con estilo</p> <!-- Lema de la marca -->
+      </div>
     </div>
   </header>
 
-  <!-- Carrusel de productos -->
-  <section class="productos-mas-vendidos">
+  <!-- ===================== SECCIÓN DE PRODUCTOS MÁS VENDIDOS ===================== -->
+  <section id="recomendados" class="recomendados">
     <h2>PRODUCTOS MÁS VENDIDOS</h2>
-    <div class="carrusel">
-      <button class="btn-carrusel izq">&#8249;</button>
-      <div class="contenedor-productos" id="carrusel-productos">
-        <!-- Los productos se cargarán aquí dinámicamente -->
-      </div>   
-      <button class="btn-carrusel der">&#8250;</button>
+    <div class="carousel-container"> <!-- Contenedor del carrusel -->
+      <button id="prev" class="carousel-btn"></button> <!-- Botón para retroceder -->
+      <div class="carousel-track"></div> <!-- Aquí se insertan dinámicamente los productos -->
+      <button id="next" class="carousel-btn"></button> <!-- Botón para avanzar -->
     </div>
   </section>
-  
 
-  <!-- Categorías dinámicas desde JSON -->
-  <section class="categorias" id="categorias">
-    <!-- Los botones se insertan dinámicamente aquí -->
-  </section>
+  <!-- ===================== MENÚ DE CATEGORÍAS DINÁMICO ===================== -->
+  <nav id="categorias" class="categorias"></nav> <!-- Aquí se cargan botones de categorías desde JSON -->
+  <button class="menu-toggle" onclick="toggleCategorias()">☰</button> <!-- Botón estilo hamburguesa para menú móvil -->
 
-<!-- Todos los productos -->
- <div class="category">
-  <button>Shorts</button>
-</div>
-
-<div class="product-container">
-  <div class="product-card">
-    <div class="product-image-container">
-      <img src="https://i.pinimg.com/originals/20/15/68/2015684e379554c1648d018b5dfd0b46.jpg" alt="Producto Principal" class="product-image" id="main-image">
+  <!-- ===================== PLANTILLA DE PRODUCTO SELECCIONADO ===================== -->
+  <div class="plantilla">
+    <!-- Miniaturas a la izquierda -->
+    <div class="imagenes-secundarias">
+      <img src="uploads/1732895499911-ALEXA.png" alt="Primera vista" onclick="cambiarImagen('uploads/1732895499911-ALEXA.png')">
+      <img src="uploads/1732899608051-SULY.png" alt="Segunda vista" onclick="cambiarImagen('uploads/1732899608051-SULY.png')">
+      <img src="uploads/1733256826587-WhatsApp Image 2024-11-11 at 11.57.30 AM (3).jpeg" alt="Tercera vista" onclick="cambiarImagen('uploads/1733256826587-WhatsApp Image 2024-11-11 at 11.57.30 AM (3).jpeg')">
     </div>
-    <div class="product-details">
-      <h3>Camiseta Basica</h3>
-      <p>Camiseta de algodón cómoda y casual.</p>
-      <p><strong>Tallas disponibles:</strong> S M L XL</p>
-      <p><strong>Colores disponibles:</strong></p>
-      <div class="thumbnail-container">
-        <img src="https://i.pinimg.com/originals/20/15/68/2015684e379554c1648d018b5dfd0b46.jpg" alt="Miniatura 1" onclick="changeImage(this)">
-        <img src="https://media.gq.com.mx/photos/6123fdbcda7922b6d80aad57/master/w_1600%2Cc_limit/Vestir%2520de%2520negro.jpg" alt="Miniatura 2" onclick="changeImage(this)">
-        <img src="https://estasdemoda.com/wp-content/uploads/2020/07/consejos-de-fotografia-de-moda-11.jpg" alt="Miniatura 3" onclick="changeImage(this)">
+
+    <!-- Imagen principal del producto a la derecha -->
+    <div class="imagen-principal">
+      <img id="imagenGrande" src="uploads/1732899642902-SULY.png" alt="Modelo usando conjunto completo">
+      <div class="nombre-modelo">NORMA</div> <!-- Nombre del producto o modelo -->
+      <div class="detalles-producto">
+        <div class="referencia">Ref: P055</div> <!-- Código de referencia del producto -->
+        <div class="talla">Talla: S-M-L</div> <!-- Tallas disponibles -->
+        <div class="precio">Precio mayorista: 45.000</div> <!-- Precio al por mayor -->
       </div>
     </div>
-  </div>
+<!-- Contenedor para los colores disponibles -->
+ 
+<div class="colores-disponibles">
+  <strong> Colores:  </strong>
+  <span class="color" style="background-color: #000000;" title="Negro"></span>
+  <span class="color" style="background-color: #FFFFFF;" title="Blanco"></span>
+  <span class="color" style="background-color: #FF0000;" title="Rojo"></span>
+  <span class="color" style="background-color: #008000;" title="Verde"></span>
+  <span class="color" style="background-color: #0000FF;" title="Azul"></span>
+</div>
 </div>
 
 
-  <!-- Script -->
-  <script src="script.js"></script>
+
+  <!-- ===================== SCRIPT PRINCIPAL ===================== -->
+  <script src="script.js"></script> <!-- Script externo con toda la lógica JavaScript -->
+
 </body>
 </html>
