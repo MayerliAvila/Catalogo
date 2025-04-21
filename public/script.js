@@ -325,4 +325,43 @@ function abrirModal() {
     }
   }
   
+ //Comprar producto
+
+  function AbrirProductoComprar() {
+    document.getElementById('modalProducto').style.display = 'block';
+  }
+
+  function cerrarProductoComprar() {
+    document.getElementById('modalProducto').style.display = 'none';
+  }function AgregarCarro() {
+    // Obtener valores seleccionados
+    const talla = document.getElementById("talla").value;         // Talla seleccionada
+    const color = document.getElementById("color").value;         // Color seleccionado
+    const cantidad = document.getElementById("cantidad").value;   // Cantidad seleccionada
   
+    // Crear el texto que se mostrará en la lista
+    const productoTexto = `Producto - Talla: ${talla}, Color: ${color}, Cantidad: ${cantidad}`;
+  
+    // Crear un nuevo elemento <li> y agregarle el texto
+    const li = document.createElement("li");
+    li.textContent = productoTexto;
+  
+    // Agregar el <li> a la lista en el DOM
+    const lista = document.getElementById("lista-carrito");
+    lista.appendChild(li);
+  }
+  
+
+
+  function seguirComprando() {
+    document.getElementById('modalProducto').style.display = 'none';
+    cerrarModal();
+  }
+
+  // Cerrar el modal si el usuario hace clic fuera del contenido
+  window.onclick = function(event) {
+    const modal = document.getElementById('modalProducto');
+    if (event.target === modal) {
+      cerrarModal();
+    }
+  }

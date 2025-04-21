@@ -11,11 +11,16 @@
 </head>
 
 <body>
+  <!-- Botón fijo de WhatsApp -->
+<a href="https://wa.me/1234567890" target="_blank" class="whatsapp-button">
+  <img src="Imagen_De_Apoyo/Icono_WhatsApp.png" alt="WhatsApp" class="icono-wsp">
+</a>
+
   <!-- ===================== ENCABEZADO ===================== -->
   <header class="header"> <!-- Sección superior con logo y eslogan -->
     <div class="site-container"> <!-- Contenedor para alinear el contenido del header -->
       <div class="header-titles">
-        <img src="logo.png" alt="Logo" class="logo"> <!-- Logo de la tienda -->
+        <img src="Imagen_De_Apoyo/logo.png" alt="Logo" class="logo"> <!-- Logo de la tienda -->
         <p class="eslogan">Vive cada momento con estilo</p> <!-- Lema de la marca -->
       </div>
     </div>
@@ -33,6 +38,7 @@
 
   <!-- ===================== MENÚ DE CATEGORÍAS DINÁMICO ===================== -->
   <nav id="categorias" class="categorias"></nav> <!-- Aquí se cargan botones de categorías desde JSON -->
+
   <button class="menu-toggle" onclick="toggleCategorias()">☰</button> <!-- Botón estilo hamburguesa para menú móvil -->
 
   <!-- ===================== PLANTILLA DE PRODUCTO SELECCIONADO ===================== -->
@@ -52,19 +58,63 @@
         <div class="referencia">Ref: P055</div> <!-- Código de referencia del producto -->
         <div class="talla">Talla: S-M-L</div> <!-- Tallas disponibles -->
         <div class="precio">Precio mayorista: 45.000</div> <!-- Precio al por mayor -->
+       <button class="comprar-button" onclick="AbrirProductoComprar()" class = "abrir-modal-btn"> Comprar 🛒</button>  
+
+
+    <!-- Modal -->
+    <div id="modalProducto" class="modal">
+      <div class="modal-contenido">
+        <h2>Nombre del Producto</h2>
+
+            <!-- Tallas (menú desplegable) -->
+      <div class="seccion">
+        <label for="talla"><strong>Selecciona una talla:</strong></label><br>
+        <select name="talla" id="talla">
+          <option value="S">S</option> <!-- Talla pequeña -->
+          <option value="M">M</option> <!-- Talla mediana -->
+          <option value="L">L</option> <!-- Talla grande -->
+          <option value="XL">XL</option> <!-- Talla extra grande -->
+        </select>
+      </div>
+
+      <!-- Colores (menú desplegable) -->
+      <div class="seccion">
+        <label for="color"><strong>Selecciona color:</strong></label><br>
+        <select name="color" id="color">
+          <option value="negro">Negro</option>
+          <option value="blanco">Blanco</option>
+          <option value="rojo">Rojo</option>
+          <option value="azul">Azul</option>
+        </select>
+      </div>
+
+      <!-- Cantidad -->
+      <div class="seccion">
+        <label for="cantidad"><strong>Cantidad:</strong></label><br>
+        <input type="number" name="cantidad" id="cantidad" value="1" min="1" max="100">
+        <!-- Campo numérico, valor mínimo 1, máximo 100 -->
+      </div>
+
+
+
+        <!-- Botones -->
+        <div class="modal-botones">
+          <button onclick="AgregarCarror()">Agregar al carrito</button>
+          <!-- Lista de productos comprados -->
+          <div class="seccion">
+            <h3>Productos en el carrito:</h3>
+            <ul id="lista-carrito"></ul> <!-- Aquí se agregarán los productos -->
+          </div>
+          <button onclick="seguirComprando()">Seguir comprando</button>
+          <button onclick="cerrarProductoComprar()">Cancelar</button>
+        </div>
+      </div>
+    
+ 
       </div>
     </div>
-<!-- Contenedor para los colores disponibles -->
- 
-<div class="colores-disponibles">
-  <strong> Colores:  </strong>
-  <span class="color" style="background-color: #000000;" title="Negro"></span>
-  <span class="color" style="background-color: #FFFFFF;" title="Blanco"></span>
-  <span class="color" style="background-color: #FF0000;" title="Rojo"></span>
-  <span class="color" style="background-color: #008000;" title="Verde"></span>
-  <span class="color" style="background-color: #0000FF;" title="Azul"></span>
-</div>
-</div>
+
+
 
   <!-- ===================== BOTÓN Y MODAL DE ADMINISTRACIÓN ===================== -->
 
@@ -73,21 +123,34 @@
     <button class="admin-button" onclick="abrirModal()">Administrador</button>
   </div>
 
-  <!-- Modal flotante del panel de administración -->
-  <div id="modalAdmin" class="modal">
-    <div class="modal-contenido"> <!-- Contenido del modal -->
-      <span class="cerrar" onclick="cerrarModal()">&times;</span> <!-- Botón (X) para cerrar el modal -->
-      <h2>Panel de Administración</h2>
+ <!-- Modal flotante del panel de administración -->
+<div id="modalAdmin" class="modal">
+  <div class="modal-contenido">
+    <span class="cerrar" onclick="cerrarModal()">&times;</span> <!-- Botón (X) para cerrar el modal -->
+    <h2>Iniciar sesión</h2>
 
-      <!-- Menú principal dentro del modal con opciones de acción -->
-      <div id="vistaInicial">
-        <button onclick="mostrarSeccion('formularioAgregar')">Agregar Producto</button> <!-- Ir al formulario de agregar producto -->
-        <button onclick="mostrarSeccion('productosExistentes')">Productos Existentes</button> <!-- Ver lista de productos -->
-        <button onclick="mostrarSeccion('eliminarProducto')">Eliminar Producto</button> <!-- Ir a sección de eliminación -->
-        <button onclick="mostrarSeccion('productosMasVendidos')">Productos más vendidos</button> <!-- Administrar más vendidos -->
+    <!-- Formulario de inicio de sesión -->
+    <form id="form-login">
+      <div class="campo">
+        <label for="usuario">Usuario:</label>
+        <input type="text" id="usuario" name="usuario" placeholder="Ingrese su usuario" required />
       </div>
-    </div>
+      <div class="campo">
+        <label for="contraseña">Contraseña:</label>
+        <input type="password" id="contraseña" name="contraseña" placeholder="Ingrese su contraseña" required />
+      </div>
+      <!-- Login -->
+<div class="contenedor-login-panel">
+  <!-- Contenido de Login -->
+  <div class="login-container" id="loginContainer">
+    <form>
+      <div class="acciones">
+        <button type="button" onclick="mostrarPanel()">Iniciar sesión</button>
+        <a href="#">¿Olvidaste tu contraseña?</a>
+      </div>
+    </form>
   </div>
+
 
   <!-- ===================== SCRIPT PRINCIPAL ===================== -->
   <script src="script.js"></script> <!-- Script externo con toda la lógica JavaScript -->

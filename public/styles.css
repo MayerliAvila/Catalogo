@@ -523,6 +523,8 @@ header {
     /* NOTA: Necesitarás JS para cambiar el icono de ☰ a X cuando el menú esté abierto. */
   }
 }
+
+
 /* Contenedor principal que agrupa todo el contenido */
 .plantilla {
 display: grid; /* Diseño en cuadrícula */
@@ -531,8 +533,8 @@ grid-template-rows: 1fr auto; /* Primer área toma el resto, la segunda área aj
 gap: 12px; /* Mayor separación entre columnas */
 background-color: white; /* Fondo blanco */
 padding: 16px; /* Aumenta el padding para hacerlo más espacioso */
-width: 300px; /* Aumento el ancho para ajustarse al contenido */
-height: 400px; /* Aumento la altura para permitir más espacio */
+width: 320px; /* Aumento el ancho para ajustarse al contenido */
+height: 410px; /* Aumento la altura para permitir más espacio */
 max-width: 500px; /* Límite máximo mayor */
 margin: auto; /* Centrado horizontal */
 font-family: 'Arial', sans-serif;
@@ -659,10 +661,23 @@ transition: transform 0.2s ease; /* Transición suave al interactuar */
 
 /* Efecto al pasar el cursor sobre un color */
 .colores-disponibles .color:hover {
-transform: scale(1.2); /* Aumenta ligeramente el tamaño del círculo */
+transform: scale(1); /* Aumenta ligeramente el tamaño del círculo */
 border-color: #333; /* Oscurece el borde para resaltar */
 }
-
+.comprar-button {
+  background-color: #1d4b45; /* Color de fondo verde oscuro */
+  color: #f5c15d; /* Color de texto amarillo dorado */
+  border: none; /* Elimina el borde del botón */
+  padding: 15px 30px; /* Espaciado interno (arriba/abajo, izquierda/derecha) */
+  border-radius: 10px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar por encima, indicando interactividad */
+  font-size: 10px; /* Tamaño de la fuente */
+  font-weight: bold; /* Texto en negrita */
+  transition: background-color 0.3s; /* Transición suave para el cambio de color de fondo */
+}
+.comprar-button:hover{
+  transform: scale(1.1);   /* Efecto zoom al pasar el mouse. */
+}
 
 
 /* ==========================================================================
@@ -951,4 +966,88 @@ border-color: #333; /* Oscurece el borde para resaltar */
     width: 95%; /* Ocupa el 95% del ancho de la pantalla */
   }
 }
+/* --- Botón fijo de WhatsApp --- */
+.whatsapp-button {
+  position: fixed;         /* Lo deja fijo en la pantalla al hacer scroll. */
+  bottom: 20px;            /* Separado 20px del fondo. */
+  right: 20px;             /* Separado 20px del borde derecho. */
+  z-index: 1000;           /* Se asegura de que quede encima de todo. */
+}
 
+/* --- Estilo del icono dentro del botón --- */
+.icono-wsp {
+  width: 50px;             /* Tamaño del ícono de WhatsApp (ajustable). */
+  height: 50px;
+  border-radius: 50%;      /* Lo hace redondo. */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para que resalte. */
+  transition: transform 0.3s ease;         /* Animación suave al pasar el mouse. */
+}
+
+.icono-wsp:hover {
+  transform: scale(1.1);   /* Efecto de agrandarse al pasar el mouse. */
+}
+
+/* ==========================================================================
+   Comprar producto
+   ========================================================================== */
+
+/*
+/* --- Fondo oscuro del modal que cubre toda la pantalla cuando se activa --- */
+.modal {
+  display: none; /* El modal está oculto por defecto */
+  position: fixed; /* Fijo en pantalla, no se mueve al hacer scroll */
+  z-index: 999; /* Se asegura que esté por encima de otros elementos */
+  left: 0; /* Comienza desde el borde izquierdo de la pantalla */
+  top: 0; /* Comienza desde la parte superior */
+  width: 100%; /* Cubre todo el ancho de la pantalla */
+  height: 100%; /* Cubre todo el alto de la pantalla */
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo negro semitransparente */
+}
+
+/* --- Estilo del contenido interno del modal (la caja blanca centrada) --- */
+.modal-contenido {
+  background-color: #fff; /* Fondo blanco para el contenido */
+  margin: 10% auto; /* Centrado verticalmente con margen superior */
+  padding: 20px; /* Espaciado interno */
+  border-radius: 10px; /* Bordes redondeados */
+  width: 90%; /* Toma el 90% del ancho de la pantalla en móvil */
+  max-width: 400px; /* Pero nunca más de 400px */
+  text-align: center; /* Texto y elementos centrados */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Sombra para efecto flotante */
+}
+
+/* --- Estilo general para los botones del modal --- */
+.modal-botones button {
+  padding: 10px 20px; /* Espaciado interno horizontal y vertical */
+  margin: 10px; /* Separación entre botones */
+  border: none; /* Sin borde */
+  border-radius: 8px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  font-weight: bold; /* Texto en negrita */
+}
+
+/* --- Estilo del primer botón (Cancelar) --- */
+.modal-botones button:first-child {
+  background-color: #ccc; /* Color gris claro */
+}
+
+/* --- Estilo del segundo botón (Seguir comprando) --- */
+.modal-botones button:last-child {
+  background-color: #1d4b45; /* Verde oscuro */
+  color:var(--main-text-color); /* Texto blanco */
+}
+
+/* --- Espaciado entre secciones dentro del modal (tallas, color) --- */
+.seccion {
+  margin: 20px 0; /* Margen arriba y abajo */
+}
+
+/* --- Botón que abre el modal (por ejemplo: "Ver producto") --- */
+.abrir-modal-btn {
+  padding: 10px 20px; /* Espaciado interno */
+  background-color: #27665c; /* Color verde azulado */
+  color: white; /* Texto blanco */
+  border: none; /* Sin borde */
+  border-radius: 8px; /* Bordes redondeados */
+  cursor: pointer; /* Cursor tipo mano al pasar por encima */
+}
